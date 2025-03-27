@@ -31,7 +31,7 @@ export class EmbeddingsNetmind implements INodeType {
 		version: 1,
 		description: 'Use Embeddings Netmind',
 		defaults: {
-			name: 'Embeddings Netmind OpenAI',
+			name: 'Embeddings Netmind',
 		},
 
 		codex: {
@@ -62,11 +62,11 @@ export class EmbeddingsNetmind implements INodeType {
 				default: 'BAAI/bge-m3',
 				options: [
 					{
-						name: 'BAAI Bge M3',
+						name: 'BAAI/bge-M3',
 						value: 'BAAI/bge-m3',
 					},
 					{
-						name: 'Nvidia NV Embed V2',
+						name: 'Nvidia/NV-Embed-V2',
 						value: 'nvidia/NV-Embed-v2',
 					},
 				],
