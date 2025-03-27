@@ -1,0 +1,85 @@
+{
+  "name": "chat",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -420,
+        -60
+      ],
+      "id": "7d58eb88-1551-44d2-be76-09d2589f797a",
+      "name": "When chat message received",
+      "webhookId": "6fd23b66-9c83-42bd-9339-5339e84c76b0"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -140,
+        -60
+      ],
+      "id": "41b12f32-c668-47b7-8eb0-6f7462b9053b",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-netmind.lmChatNetmind",
+      "typeVersion": 1,
+      "position": [
+        100,
+        160
+      ],
+      "id": "c23ed9fe-fc49-4a00-8ec2-b68b231ff21c",
+      "name": "Netmind Chat Model",
+      "credentials": {
+        "netmindApi": {
+          "id": "osBf0UvUXuFIgBYk",
+          "name": "Netmind account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Netmind Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d9b15bf9-fd1d-458f-a3f2-47852f5292bd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fe54b2c2b6bdff1f7cd5ac9660c55e98c10bc1a6d7afee736880f33347565500"
+  },
+  "id": "2pNq2uH489ElIXti",
+  "tags": []
+}

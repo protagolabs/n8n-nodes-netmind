@@ -1,0 +1,157 @@
+{
+  "name": "embdding",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        40
+      ],
+      "id": "8fa27f8e-296d-4522-81e6-4dfa553c5f68",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "http://baidu.com",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b6ad9255-9041-4dcb-bac9-94b7633a3ee5",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "insert"
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.1,
+      "position": [
+        280,
+        0
+      ],
+      "id": "08fd65a4-fd04-4691-b3f4-3545393c1e25",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        580,
+        260
+      ],
+      "id": "f4d334fd-360e-41fb-aa51-ed6ff8b489e6",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        380,
+        400
+      ],
+      "id": "3b501d76-c5d0-4c10-b60d-8aed3c21672a",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-netmind.embeddingsNetmind",
+      "typeVersion": 1,
+      "position": [
+        100,
+        380
+      ],
+      "id": "ccf8c356-53b6-4ba4-87bb-2f098f20cec1",
+      "name": "Embeddings Netmind OpenAI",
+      "credentials": {
+        "netmindApi": {
+          "id": "osBf0UvUXuFIgBYk",
+          "name": "Netmind account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Netmind OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e06660c0-f893-43d0-ad95-a74921dd29b3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fe54b2c2b6bdff1f7cd5ac9660c55e98c10bc1a6d7afee736880f33347565500"
+  },
+  "id": "t2usX5w7bmHz7e2Z",
+  "tags": []
+}
