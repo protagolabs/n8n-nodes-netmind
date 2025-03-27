@@ -8,10 +8,9 @@ Netmind Website: [Net the Future, Power the AI.](https://netmind.ai)
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-[Installation](#installation)
-[Credentials](#credentials)
-[Compatibility](#compatibility)  
-[Usage](#usage)
+[Installation](#installation)  
+[Credentials](#credentials)  
+[Usage](#usage)  
 [Resources](#resources)
 
 
