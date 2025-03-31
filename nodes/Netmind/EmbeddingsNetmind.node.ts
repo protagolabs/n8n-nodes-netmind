@@ -63,7 +63,7 @@ export class EmbeddingsNetmind implements INodeType {
 				name: 'model',
 				type: 'options',
 				description: 'The name of the model to use',
-				default: 'BAAI/bge-m3',
+				default: '',
 				typeOptions: {
 					loadOptions: {
 						routing: {

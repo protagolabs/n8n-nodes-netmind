@@ -122,7 +122,7 @@ export class LmChatNetmind implements INodeType {
 						property: 'model',
 					},
 				},
-				default: 'meta-llama/Llama-3.3-70B-Instruct',
+				default: '',
 			},
 			{
 				displayName: 'Options',
