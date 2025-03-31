@@ -53,6 +53,10 @@ export class LmChatNetmind implements INodeType {
 				required: true,
 			},
 		],
+		requestDefaults: {
+			ignoreHttpStatusErrors: true,
+			baseURL: '={{ $credentials?.url }}',
+		},
 		properties: [
 			getConnectionHintNoticeField([NodeConnectionType.AiChain, NodeConnectionType.AiAgent]),
 			{
@@ -73,27 +77,51 @@ export class LmChatNetmind implements INodeType {
 				type: 'options',
 				description:
 					'The model which will generate the completion. <a href="https://netmind.ai">Learn more</a>.',
-				options: [
-					{
-						name: 'Deepseek-ai/DeepSeek-R1',
-						value: 'deepseek-ai/DeepSeek-R1',
+				typeOptions: {
+					loadOptions: {
+						routing: {
+							request: {
+								method: 'GET',
+								url: 'https://api.netmind.ai/v1/model',
+							},
+							output: {
+								postReceive: [
+									{
+										type: 'rootProperty',
+										properties: {
+											property: 'models',
+										},
+									},
+									{
+										type: 'filter',
+										properties: {
+											pass: `={{$responseItem.model_type === 'Chat'}}`
+										}
+									},
+									{
+										type: 'setKeyValue',
+										properties: {
+											name: '={{$responseItem.model_name}}',
+											value: '={{$responseItem.model_name}}',
+										},
+									},
+									{
+										type: 'sort',
+										properties: {
+											key: 'name',
+										},
+									},
+								],
+							},
+						},
 					},
-					{
-						name: 'Deepseek-ai/DeepSeek-V3',
-						value: 'deepseek-ai/DeepSeek-V3',
+				},
+				routing: {
+					send: {
+						type: 'body',
+						property: 'model',
 					},
-					{
-						name: 'Meta-llama/Llama-3.3-70B-Instruct',
-						value: 'meta-llama/Llama-3.3-70B-Instruct',
-					},
-					{
-						name: 'Meta-llama/Meta-Llama-3.1-405B',
-						value: 'meta-llama/Meta-Llama-3.1-405B',
-					},
-					{
-						name: 'Qwen/Qwen2.5-72B-Instruct',
-						value: 'Qwen/Qwen2.5-72B-Instruct'
-					}],
+				},
 				default: 'meta-llama/Llama-3.3-70B-Instruct',
 			},
 			{

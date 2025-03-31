@@ -52,6 +52,10 @@ export class EmbeddingsNetmind implements INodeType {
 		// eslint-disable-next-line n8n-nodes-base/node-class-description-outputs-wrong
 		outputs: [NodeConnectionType.AiEmbedding],
 		outputNames: ['Embeddings'],
+		requestDefaults: {
+			ignoreHttpStatusErrors: true,
+			baseURL: '={{ $credentials?.url }}',
+		},
 		properties: [
 			getConnectionHintNoticeField([NodeConnectionType.AiVectorStore]),
 			{
@@ -60,16 +64,51 @@ export class EmbeddingsNetmind implements INodeType {
 				type: 'options',
 				description: 'The name of the model to use',
 				default: 'BAAI/bge-m3',
-				options: [
-					{
-						name: 'BAAI/bge-M3',
-						value: 'BAAI/bge-m3',
+				typeOptions: {
+					loadOptions: {
+						routing: {
+							request: {
+								method: 'GET',
+								url: 'https://api.netmind.ai/v1/model',
+							},
+							output: {
+								postReceive: [
+									{
+										type: 'rootProperty',
+										properties: {
+											property: 'models',
+										},
+									},
+									{
+										type: 'filter',
+										properties: {
+											pass: `={{$responseItem.model_type === 'Embedding'}}`
+										}
+									},
+									{
+										type: 'setKeyValue',
+										properties: {
+											name: '={{$responseItem.model_name}}',
+											value: '={{$responseItem.model_name}}',
+										},
+									},
+									{
+										type: 'sort',
+										properties: {
+											key: 'name',
+										},
+									},
+								],
+							},
+						},
 					},
-					{
-						name: 'Nvidia/NV-Embed-V2',
-						value: 'nvidia/NV-Embed-v2',
+				},
+				routing: {
+					send: {
+						type: 'body',
+						property: 'model',
 					},
-				],
+				},
 			},
 			{
 				displayName: 'Options',
